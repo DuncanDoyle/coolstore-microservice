@@ -11,4 +11,4 @@ spec:
   strategy:
     type: "JenkinsPipeline"
     jenkinsPipelineStrategy:
-      jenkinsfilePath: coolstore-ui/Jenkinsfile  
+      jenkinsfilePath: Jenkinsfile  

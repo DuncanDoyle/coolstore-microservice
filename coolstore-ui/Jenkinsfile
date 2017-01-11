@@ -1,0 +1,57 @@
+#!/usr/bin/env groovy
+
+node {
+//    stage 'Git checkout'
+//    echo 'Checking out git repository'
+//    git url: 'https://github.com/jamesfalkner/coolstore-microservice'
+
+    stage 'Build image and deploy in Dev'
+    echo 'Building docker image and deploying to Dev'
+    buildProject(env.PROD_PROJECT + '-dev')
+
+    stage 'Automated tests'
+    echo 'This stage simulates automated tests'
+    sh "sleep 5"
+
+    stage 'Deploy to QA'
+    echo 'Deploying to QA'
+    deployProject(env.PROD_PROJECT + '-dev', env.PROD_PROJECT + '-qa', true)
+
+    stage 'Wait for approval'
+    input 'Approve to production?'
+
+    stage 'Deploy to production'
+    echo 'Deploying to production'
+    deployProject(env.PROD_PROJECT + '-dev', env.PROD_PROJECT, true)
+}
+
+// Creates a Build and triggers it
+def buildProject(String project){
+    projectSet(project)
+    sh "oc new-build --name web-ui --image nodejs:4 --strategy source --binary || echo 'Build already exists'"
+    sh "oc start-build web-ui --from-dir=. --follow"
+    sh "oc new-app web-ui -e COOLSTORE_GW_SERVICE=coolstore-gw,HOSTNAME_HTTP=web-ui:8080 || echo 'Application already exists'"
+    sh "oc expose service web-ui || echo 'Service already exposed'"
+}
+
+// Tag the ImageStream from an original project to force a deployment
+def deployProject(String origProject, String project, boolean expose){
+    projectSet(project)
+    sh "oc policy add-role-to-user system:image-puller system:serviceaccount:${project}:default -n ${origProject}"
+    sh "oc policy add-role-to-group system:image-puller system:serviceaccounts:${project} -n ${origProject}"
+
+    sh "oc tag ${origProject}/web-ui:latest ${project}/web-ui:latest"
+    sh "oc new-app --image-stream=web-ui -l application=web-ui || echo 'Application exists'"
+
+    if (expose) {
+        sh "oc expose service web-ui || echo 'Service already exposed'"
+    }
+
+}
+
+// Login and set the project
+def projectSet(String project){
+    sh "oc new-project ${project} || echo 'Project exists'"
+    sh "oc project ${project}"
+}
+

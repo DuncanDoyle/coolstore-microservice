@@ -882,7 +882,7 @@ parameters:
   displayName: Git source repository
   name: GIT_URI
   required: true
-  value: https://github.com/jbossdemocentral/coolstore-microservice
+  value: https://github.com/jamesfalkner/coolstore-microservice
 - description: Git branch/tag reference
   displayName: Git branch/tag reference
   name: GIT_REF

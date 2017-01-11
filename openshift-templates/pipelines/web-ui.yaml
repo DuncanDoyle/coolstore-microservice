@@ -1,0 +1,14 @@
+kind: "BuildConfig"
+apiVersion: "v1"
+metadata:
+  name: "web-ui-pipeline"
+spec:
+  source:
+    type: "Git"
+    git:
+      uri: "https://github.com/jamesfalkner/coolstore-microservice"
+    contextDir: coolstore-ui
+  strategy:
+    type: "JenkinsPipeline"
+    jenkinsPipelineStrategy:
+      jenkinsfilePath: coolstore-ui/Jenkinsfile  

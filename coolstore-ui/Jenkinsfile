@@ -28,7 +28,7 @@ node {
 // Creates a Build and triggers it
 def buildProject(String project){
     projectSet(project)
-    sh "oc new-build --name web-ui --image nodejs:4 --strategy source --binary || echo 'Build already exists'"
+    sh "oc new-build --name web-ui --image nodejs:4 --strategy source --binary -e NPM_MIRROR=http://nexus.ci.svc.cluster.local:8081/repository/npmjs-org/ || echo 'Build already exists'"
     sh "oc start-build web-ui --from-dir=coolstore-ui --follow"
     sh "oc new-app web-ui -e PROD_PROJECT=${env.PROD_PROJECT},COOLSTORE_GW_SERVICE=coolstore-gw,HOSTNAME_HTTP=web-ui:8080 || echo 'Application already exists'"
     sh "oc expose service web-ui || echo 'Service already exposed'"

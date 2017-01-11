@@ -29,7 +29,7 @@ node {
 def buildProject(String project){
     projectSet(project)
     sh "oc new-build --name web-ui --image nodejs:4 --strategy source --binary || echo 'Build already exists'"
-    sh "oc start-build web-ui --from-dir=. --follow"
+    sh "oc start-build web-ui --from-dir=coolstore-ui --follow"
     sh "oc new-app web-ui -e PROD_PROJECT=${project},COOLSTORE_GW_SERVICE=coolstore-gw,HOSTNAME_HTTP=web-ui:8080 || echo 'Application already exists'"
     sh "oc expose service web-ui || echo 'Service already exposed'"
 }

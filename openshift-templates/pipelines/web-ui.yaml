@@ -2,6 +2,8 @@ kind: "BuildConfig"
 apiVersion: "v1"
 metadata:
   name: "web-ui-pipeline"
+  annotations:
+    pipeline.alpha.openshift.io/uses: '[{"name": "web-ui", "namespace": "", "kind": "DeploymentConfig"}]'
 spec:
   source:
     type: "Git"

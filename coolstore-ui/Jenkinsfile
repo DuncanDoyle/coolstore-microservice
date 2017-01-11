@@ -30,7 +30,7 @@ def buildProject(String project){
     projectSet(project)
     sh "oc new-build --name web-ui --image nodejs:4 --strategy source --binary || echo 'Build already exists'"
     sh "oc start-build web-ui --from-dir=coolstore-ui --follow"
-    sh "oc new-app web-ui -e PROD_PROJECT=${project},COOLSTORE_GW_SERVICE=coolstore-gw,HOSTNAME_HTTP=web-ui:8080 || echo 'Application already exists'"
+    sh "oc new-app web-ui -e PROD_PROJECT=${env.PROD_PROJECT},COOLSTORE_GW_SERVICE=coolstore-gw,HOSTNAME_HTTP=web-ui:8080 || echo 'Application already exists'"
     sh "oc expose service web-ui || echo 'Service already exposed'"
 }
 
@@ -41,8 +41,8 @@ def deployProject(String origProject, String project, boolean expose){
     sh "oc policy add-role-to-group system:image-puller system:serviceaccounts:${project} -n ${origProject}"
 
     sh "oc tag ${origProject}/web-ui:latest ${project}/web-ui:latest"
-    sh "oc new-app --image-stream=web-ui -l application=web-ui -e PROD_PROJECT=${project},COOLSTORE_GW_SERVICE=coolstore-gw,HOSTNAME_HTTP=web-ui:8080 || echo 'Application exists'"
-
+    sh "oc new-app --image-stream=web-ui -l application=web-ui -e PROD_PROJECT=${env.PROD_PROJECT},COOLSTORE_GW_SERVICE=coolstore-gw,HOSTNAME_HTTP=web-ui:8080 || echo 'Application exists'"
+    sh "oc set env dc/web-ui PROD_PROJECT=${env.PROD_PROJECT}"
     if (expose) {
         sh "oc expose service web-ui || echo 'Service already exposed'"
     }

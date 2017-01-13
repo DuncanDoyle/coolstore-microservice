@@ -19,13 +19,13 @@ public class PromoService implements Serializable {
 
 	private String name = null;
 	
-	private Set<Promotion> promotionSet = null;
+	private Set<Promotion> PromotionSet = null;
 
 	public PromoService() {
 						
-		promotionSet = new HashSet<Promotion>();
+		PromotionSet = new HashSet<Promotion>();
 		
-		promotionSet.add(new Promotion("329299", .25));
+		PromotionSet.add(new Promotion("329299", .25));
 						
 	}
 			
@@ -78,25 +78,25 @@ public class PromoService implements Serializable {
 		
 	public Set<Promotion> getPromotions() {
 				
-		if ( promotionSet == null ) {
+		if ( PromotionSet == null ) {
 			
-			promotionSet = new HashSet<Promotion>();
+			PromotionSet = new HashSet<Promotion>();
 			
 		}
 		
-		return new HashSet<Promotion>(promotionSet);
+		return new HashSet<Promotion>(PromotionSet);
 		
 	}
 	
-	public void setPromotions(Set<Promotion> promotionSet) {
+	public void setPromotions(Set<Promotion> PromotionSet) {
 		
-		if ( promotionSet != null ) {
+		if ( PromotionSet != null ) {
 		
-			this.promotionSet = new HashSet<Promotion>(promotionSet);
+			this.PromotionSet = new HashSet<Promotion>(PromotionSet);
 			
 		} else {
 			
-			this.promotionSet = new HashSet<Promotion>();
+			this.PromotionSet = new HashSet<Promotion>();
 			
 		}
 						
@@ -104,7 +104,7 @@ public class PromoService implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "PromoService [name=" + name + ", promotionSet=" + promotionSet
+		return "PromoService [name=" + name + ", PromotionSet=" + PromotionSet
 				+ "]";
 	}
 	

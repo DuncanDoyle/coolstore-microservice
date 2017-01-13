@@ -802,6 +802,12 @@ objects:
             value: ZPiKvsqZ9K
           - name: AUTO_DEPLOY_EXPLODED
             value: "false"
+          - name: KIE_CONTAINER_DEPLOYMENT
+            value: ${KIE_CONTAINER_DEPLOYMENT}
+          - name: KIE_SERVER_USER
+            value: ${KIE_SERVER_USER}
+          - name: KIE_SERVER_PASSWORD
+            value: ${KIE_SERVER_PASSWORD}
           image: cart-service
           imagePullPolicy: Always
           lifecycle:
@@ -905,7 +911,7 @@ objects:
       sourceStrategy:
         env:
         - name: KIE_CONTAINER_DEPLOYMENT
-          value: CoolStoreRulesContainer=com.redhat:coolstore:2.0.0
+          value: ${KIE_CONTAINER_DEPLOYMENT}
         - name: MAVEN_MIRROR_URL
           value: ${MAVEN_MIRROR_URL}
         from:
@@ -938,7 +944,11 @@ objects:
         containers:
         - env:
           - name: KIE_CONTAINER_DEPLOYMENT
-            value: CoolStoreRulesContainer=com.redhat:coolstore:2.0.0
+            value: ${KIE_CONTAINER_DEPLOYMENT}
+          - name: KIE_SERVER_USER
+            value: ${KIE_SERVER_USER}
+          - name: KIE_SERVER_PASSWORD
+            value: ${KIE_SERVER_PASSWORD}
           - name: OPENSHIFT_KUBE_PING_LABELS
             value: application=pricing-service
           - name: OPENSHIFT_KUBE_PING_NAMESPACE
@@ -1025,7 +1035,7 @@ parameters:
   displayName: Git source repository
   name: GIT_URI
   required: true
-  value: https://github.com/jamesfalkner/coolstore-microservice
+  value: https://github.com/jbossdemocentral/coolstore-microservice
 - description: Git branch/tag reference
   displayName: Git branch/tag reference
   name: GIT_REF
@@ -1054,3 +1064,16 @@ parameters:
   generate: expression
   name: CATALOG_DB_PASSWORD
   required: true
+- description: Decision Server Username
+  name: KIE_SERVER_USER
+  required: true
+  value: brmsAdmin
+- description: Decision Server Password
+  from: '[a-zA-Z0-9]{8}'
+  generate: expression
+  name: KIE_SERVER_PASSWORD
+  required: true
+- description: Decision Server Coolstore Rules Container Spec
+  name: KIE_CONTAINER_DEPLOYMENT
+  required: true
+  value: CoolStoreRulesContainer=com.redhat:coolstore:2.0.0

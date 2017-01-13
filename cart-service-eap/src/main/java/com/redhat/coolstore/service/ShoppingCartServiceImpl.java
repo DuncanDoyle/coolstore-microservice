@@ -64,7 +64,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 				
 			}
 			
-			ps.applyShippingPromotions(sc);
+			ps.applyCartItemPromotions(sc);
 			
 			sc.setCartTotal(sc.getCartItemTotal() + sc.getShippingTotal());
 		

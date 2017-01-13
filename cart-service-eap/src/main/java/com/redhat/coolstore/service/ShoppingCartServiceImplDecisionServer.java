@@ -40,11 +40,11 @@ public class ShoppingCartServiceImplDecisionServer implements ShoppingCartServic
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ShoppingCartServiceImplDecisionServer.class);
 
-	// private static final String URL = "http://coolstore-rules-coolstore.127.0.0.1.xip.io/kie-server/services/rest/server";
-	private static final String URL = "http://coolstore-rules:8080/kie-server/services/rest/server";
-	private static final String USER = "brmsAdmin";
-	private static final String PASSWORD = "jbossbrms@01";
-	private static final String CONTAINER_ID = "CoolStoreRulesContainer";
+	private static final String URL = "http://pricing-service:8080/kie-server/services/rest/server";
+	private static final String USER = System.getenv("KIE_SERVER_USER");
+	private static final String PASSWORD = System.getenv("KIE_SERVER_PASSWORD");
+	private static final String CONTAINER_SPEC = System.getenv("KIE_CONTAINER_DEPLOYMENT");
+	private static final String CONTAINER_ID = CONTAINER_SPEC.substring(0, CONTAINER_SPEC.indexOf('='));
 	private static final String KIE_SESSION_NAME = "coolstore-kie-session";
 	private static final String RULEFLOW_PROCESS_NAME = "com.redhat.coolstore.PriceProcess";
 
@@ -125,7 +125,7 @@ public class ShoppingCartServiceImplDecisionServer implements ShoppingCartServic
 	/**
 	 * Builds the KIE {@link BatchExecutionCommand}, which contains all the KIE logic like insertion of facts, starting of ruleflow
 	 * processes and firing of rules, from the given {@link ShoppingCart}.
-	 * 
+	 *
 	 * @param sc
 	 *            the {@link ShoppingCart} from which the build the {@link BatchExecutionCommand}.
 	 * @return the {@link BatchExecutionCommand}

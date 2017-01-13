@@ -904,8 +904,8 @@ objects:
     source:
       contextDir: coolstore
       git:
-        ref: master
-        uri: https://github.com/jbossdemocentral/brms-coolstore-repo.git
+        ref: ${RULES_GIT_REF}
+        uri: ${RULES_GIT_URI}
       type: Git
     strategy:
       sourceStrategy:
@@ -1039,6 +1039,16 @@ parameters:
 - description: Git branch/tag reference
   displayName: Git branch/tag reference
   name: GIT_REF
+  required: true
+  value: master
+- description: Git source URI for decisionserver ruleset
+  displayName: Git source repository for decisionserver ruleset
+  name: RULES_GIT_URI
+  required: true
+  value: https://github.com/jbossdemocentral/brms-coolstore-repo.git
+- description: Git decisionserver ruleset branch/tag reference
+  displayName: Git decisionserver ruleset branch/tag reference
+  name: RULES_GIT_REF
   required: true
   value: master
 - description: Maven mirror url. If nexus is deployed locally, use nexus url (e.g. http://nexus.ci:8081/content/groups/public/)

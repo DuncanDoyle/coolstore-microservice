@@ -15,8 +15,7 @@
     "request": "^2.74.0"
   },
   "devDependencies": {
-    "bower": ">=1.7.9",
-    "bower-nexus3-resolver" : "*"
+    "bower": ">=1.7.9"
   },
   "engines": {
     "node": ">=0.10.10"
